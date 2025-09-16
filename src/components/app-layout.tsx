@@ -8,120 +8,66 @@ import { Button } from '@/components/ui/button';
 import { UserNav } from '@/components/user-nav';
 import TaskListView from '@/components/task-list-view';
 import CalendarView from '@/components/calendar-view';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Separator } from '@/components/ui/separator';
 
 type View = 'tasks' | 'calendar';
 
 export default function AppLayout() {
   const [view, setView] = useState<View>('tasks');
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   return (
-    <TooltipProvider delayDuration={0}>
-      <div className="flex min-h-screen w-full flex-col bg-muted/40">
-        <aside
-          className={cn(
-            'fixed inset-y-0 left-0 z-10 hidden flex-col border-r bg-background sm:flex transition-all duration-300',
-            isSidebarCollapsed ? 'w-14' : 'w-56'
-          )}
-        >
-          <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
-            <div
-              className={cn(
-                'flex h-12 w-full items-center justify-center gap-2 rounded-lg text-primary',
-                isSidebarCollapsed ? '' : 'px-3'
-              )}
-            >
-              <Feather className="h-6 w-6" />
-              <span
-                className={cn(
-                  'font-headline text-lg font-bold',
-                  isSidebarCollapsed && 'sr-only'
-                )}
-              >
-                OrganizeMe
-              </span>
-            </div>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant={view === 'tasks' ? 'secondary' : 'ghost'}
-                  size="icon"
-                  className={cn('rounded-lg', !isSidebarCollapsed && 'w-full justify-start gap-2 px-3')}
-                  onClick={() => setView('tasks')}
-                >
-                  <CheckSquare className="h-5 w-5" />
-                  <span className={cn(isSidebarCollapsed && 'sr-only')}>Tasks</span>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="right">Tasks</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant={view === 'calendar' ? 'secondary' : 'ghost'}
-                  size="icon"
-                  className={cn('rounded-lg', !isSidebarCollapsed && 'w-full justify-start gap-2 px-3')}
-                  onClick={() => setView('calendar')}
-                >
-                  <Calendar className="h-5 w-5" />
-                  <span className={cn(isSidebarCollapsed && 'sr-only')}>Calendar</span>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="right">Calendar</TooltipContent>
-            </Tooltip>
-          </nav>
-           <div className="mt-auto p-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="w-full"
-              onClick={() => setIsSidebarCollapsed((prev) => !prev)}
-            >
-               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className={cn("h-5 w-5 transition-transform", isSidebarCollapsed && "rotate-180")}
-              >
-                <rect width="18" height="18" x="3" y="3" rx="2" />
-                <path d="M9 3v18" />
-              </svg>
-              <span className="sr-only">Toggle sidebar</span>
-            </Button>
+    <div className="flex min-h-screen w-full flex-col">
+      <header className="sticky top-0 z-40 w-full border-b bg-background">
+        <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
+          <div className="flex gap-6 md:gap-10">
+            <a href="#" className="flex items-center space-x-2">
+              <Feather className="h-6 w-6 text-primary" />
+              <span className="inline-block font-bold font-headline">OrganizeMe</span>
+            </a>
+            <nav className="hidden md:flex gap-6">
+              <Button variant={view === 'tasks' ? 'link' : 'ghost'} className="text-sm font-medium" onClick={() => setView('tasks')}>
+                <CheckSquare className='mr-2 h-4 w-4' />
+                Tasks
+              </Button>
+              <Button variant={view === 'calendar' ? 'link' : 'ghost'} className="text-sm font-medium text-muted-foreground" onClick={() => setView('calendar')}>
+                <Calendar className='mr-2 h-4 w-4' />
+                Calendar
+              </Button>
+            </nav>
           </div>
-        </aside>
-        <div
-          className={cn(
-            'flex flex-col sm:gap-4 sm:py-4 transition-all duration-300',
-            isSidebarCollapsed ? 'sm:pl-14' : 'sm:pl-56'
-          )}
-        >
-          <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-            <div className='sm:hidden'>
-               <Feather className="h-6 w-6 text-primary" />
-            </div>
-            <div className="ml-auto flex items-center gap-4">
-              <UserNav />
-            </div>
-          </header>
-          <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-            {view === 'tasks' && <TaskListView />}
-            {view === 'calendar' && <CalendarView />}
-          </main>
+
+          <div className="flex flex-1 items-center justify-end space-x-4">
+            <UserNav />
+          </div>
         </div>
-      </div>
-    </TooltipProvider>
+      </header>
+      <main className="flex-1">
+        <div className="container py-8">
+           {view === 'tasks' && <TaskListView />}
+           {view === 'calendar' && <CalendarView />}
+        </div>
+      </main>
+       <footer className="py-6 md:px-8 md:py-0 border-t">
+        <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+          <p className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
+            Built by your friendly AI assistant.
+          </p>
+        </div>
+      </footer>
+
+       {/* Mobile Nav */}
+       <div className="md:hidden fixed bottom-0 left-0 right-0 border-t bg-background p-2">
+          <nav className="flex justify-around">
+            <Button variant={view === 'tasks' ? 'secondary' : 'ghost'} size="sm" className="flex-1" onClick={() => setView('tasks')}>
+              <CheckSquare className='h-5 w-5' />
+              <span className="sr-only">Tasks</span>
+            </Button>
+            <Button variant={view === 'calendar' ? 'secondary' : 'ghost'} size="sm" className="flex-1" onClick={() => setView('calendar')}>
+              <Calendar className='h-5 w-5' />
+               <span className="sr-only">Calendar</span>
+            </Button>
+          </nav>
+        </div>
+    </div>
   );
 }
