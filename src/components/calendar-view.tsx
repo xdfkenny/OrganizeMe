@@ -33,7 +33,7 @@ export default function CalendarView() {
     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
       <div className="lg:col-span-2">
          <Card>
-            <CardContent className="p-2">
+            <CardContent className="p-2 flex justify-center">
                 <Calendar
                   mode="single"
                   selected={selectedDate}
