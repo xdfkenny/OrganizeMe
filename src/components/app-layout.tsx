@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { UserNav } from '@/components/user-nav';
 import TaskListView from '@/components/task-list-view';
 import CalendarView from '@/components/calendar-view';
-import { Separator } from '@/components/ui/separator';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 type View = 'tasks' | 'calendar';
 
@@ -37,6 +37,7 @@ export default function AppLayout() {
           </div>
 
           <div className="flex flex-1 items-center justify-end space-x-4">
+            <ThemeToggle />
             <UserNav />
           </div>
         </div>

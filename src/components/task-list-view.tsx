@@ -67,13 +67,11 @@ export default function TaskListView() {
 
   return (
     <>
-      <div className="flex items-center justify-between space-y-2">
+      <div className="flex items-center justify-between mb-4">
         <h1 className="text-3xl font-headline font-bold tracking-tight">Tasks</h1>
-        <div className="flex items-center space-x-2">
-          <Button onClick={() => setIsDialogOpen(true)}>
-            <PlusCircle className="mr-2 h-4 w-4" /> Add Task
-          </Button>
-        </div>
+        <Button onClick={() => setIsDialogOpen(true)}>
+          <PlusCircle className="mr-2 h-4 w-4" /> Add Task
+        </Button>
       </div>
       <div className="space-y-6">
         {Object.keys(groupedTasks).length > 0 ? (
