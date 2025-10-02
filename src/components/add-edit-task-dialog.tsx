@@ -198,7 +198,7 @@ export function AddEditTaskDialog({ isOpen, onOpenChange, taskToEdit }: AddEditT
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[525px]">
+      <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="font-headline">{taskToEdit ? 'Edit Task' : 'Add New Task'}</DialogTitle>
           <DialogDescription>
@@ -207,172 +207,172 @@ export function AddEditTaskDialog({ isOpen, onOpenChange, taskToEdit }: AddEditT
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Title</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g., Finish project proposal" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            { (aiSuggestions.length > 0 || isSuggesting) &&
-              <div className="space-y-2">
-                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                   <Sparkles className="h-4 w-4 text-primary" />
-                   <span>AI Suggestions:</span>
-                   {isSuggesting && <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />}
-                 </div>
-                 <div className="flex flex-wrap gap-2">
-                   {aiSuggestions.map(s => (
-                     <Button type="button" key={s} variant="outline" size="sm" onClick={() => handleSelectSuggestion(s)}>{s}</Button>
-                   ))}
-                 </div>
-              </div>
-            }
-
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description (Optional)</FormLabel>
-                  <FormControl>
-                    <Textarea placeholder="Add more details..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="dueDate"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Due Date</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={'outline'}
-                            className={cn(
-                              'w-full pl-3 text-left font-normal',
-                              !field.value && 'text-muted-foreground'
-                            )}
-                          >
-                            {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          disabled={(date) => date < new Date(new Date().setHours(0,0,0,0))}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="categoryId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    <Select onValueChange={handleCategoryChange} value={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a category" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {categories.map((cat) => (
-                          <SelectItem key={cat.id} value={cat.id}>
-                            <div className='flex items-center gap-2'>
-                              <span className={`h-2 w-2 rounded-full ${cat.color}`}></span>
-                              {cat.name}
-                            </div>
-                          </SelectItem>
-                        ))}
-                        <SelectItem value="new">
-                          <div className='flex items-center gap-2'>
-                            <Plus className="h-4 w-4" />
-                            Create new
-                          </div>
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            {showNewCategory && (
-              <div className="grid grid-cols-3 gap-4 rounded-md border p-4">
-                <div className='col-span-2'>
+             <div className="grid md:grid-cols-3 gap-6">
+                <div className="md:col-span-2 space-y-4">
                   <FormField
                     control={form.control}
-                    name="newCategoryName"
+                    name="title"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>New Category Name</FormLabel>
+                        <FormLabel>Title</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Health" {...field} />
+                          <Input placeholder="e.g., Finish project proposal" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  { (aiSuggestions.length > 0 || isSuggesting) &&
+                    <div className="space-y-2">
+                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                         <Sparkles className="h-4 w-4 text-primary" />
+                         <span>AI Suggestions:</span>
+                         {isSuggesting && <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />}
+                       </div>
+                       <div className="flex flex-wrap gap-2">
+                         {aiSuggestions.map(s => (
+                           <Button type="button" key={s} variant="outline" size="sm" onClick={() => handleSelectSuggestion(s)}>{s}</Button>
+                         ))}
+                       </div>
+                    </div>
+                  }
+
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Description (Optional)</FormLabel>
+                        <FormControl>
+                          <Textarea placeholder="Add more details..." {...field} rows={5} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-                <div>
-                  <FormField
-                    control={form.control}
-                    name="newCategoryColor"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Color</FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button variant="outline" className="w-full justify-start">
-                              <div className="flex items-center gap-2">
-                                <div className={cn('h-4 w-4 rounded-full', field.value)} />
-                                <div className="truncate">Select color</div>
-                              </div>
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto">
-                            <div className="grid grid-cols-6 gap-2">
-                              {categoryColors.map(color => (
-                                <button
-                                  type="button"
-                                  key={color}
-                                  className={cn('h-6 w-6 rounded-full cursor-pointer', color)}
-                                  onClick={() => field.onChange(color)}
-                                />
+                <div className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="dueDate"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>Due Date</FormLabel>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant={'outline'}
+                                  className={cn(
+                                    'w-full pl-3 text-left font-normal',
+                                    !field.value && 'text-muted-foreground'
+                                  )}
+                                >
+                                  {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
+                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                              <Calendar
+                                mode="single"
+                                selected={field.value}
+                                onSelect={field.onChange}
+                                disabled={(date) => date < new Date(new Date().setHours(0,0,0,0))}
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="categoryId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Category</FormLabel>
+                          <Select onValueChange={handleCategoryChange} value={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a category" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {categories.map((cat) => (
+                                <SelectItem key={cat.id} value={cat.id}>
+                                  <div className='flex items-center gap-2'>
+                                    <span className={`h-2 w-2 rounded-full ${cat.color}`}></span>
+                                    {cat.name}
+                                  </div>
+                                </SelectItem>
                               ))}
-                            </div>
-                          </PopoverContent>
-                        </Popover>
-                      </FormItem>
+                              <SelectItem value="new">
+                                <div className='flex items-center gap-2'>
+                                  <Plus className="h-4 w-4" />
+                                  Create new
+                                </div>
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {showNewCategory && (
+                      <div className="grid grid-cols-1 gap-4 rounded-md border p-4">
+                          <FormField
+                            control={form.control}
+                            name="newCategoryName"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>New Category Name</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="e.g., Health" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="newCategoryColor"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Color</FormLabel>
+                                <Popover>
+                                  <PopoverTrigger asChild>
+                                    <Button variant="outline" className="w-full justify-start">
+                                      <div className="flex items-center gap-2">
+                                        <div className={cn('h-4 w-4 rounded-full', field.value)} />
+                                        <div className="truncate">Select color</div>
+                                      </div>
+                                    </Button>
+                                  </PopoverTrigger>
+                                  <PopoverContent className="w-auto">
+                                    <div className="grid grid-cols-6 gap-2">
+                                      {categoryColors.map(color => (
+                                        <button
+                                          type="button"
+                                          key={color}
+                                          className={cn('h-6 w-6 rounded-full cursor-pointer', color)}
+                                          onClick={() => field.onChange(color)}
+                                        />
+                                      ))}
+                                    </div>
+                                  </PopoverContent>
+                                </Popover>
+                              </FormItem>
+                            )}
+                          />
+                      </div>
                     )}
-                  />
                 </div>
-              </div>
-            )}
-            
+            </div>
+
             <div className="space-y-2">
               <FormLabel>Subtasks</FormLabel>
               {fields.map((field, index) => (
