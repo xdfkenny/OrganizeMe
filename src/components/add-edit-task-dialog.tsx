@@ -394,7 +394,7 @@ export function AddEditTaskDialog({ isOpen, onOpenChange, taskToEdit }: AddEditT
                   </Button>
                 </div>
               ))}
-              <Button type="button" variant="outline" size="sm" onClick={() => append({ title: '' })}>
+              <Button type="button" variant="outline" size="sm" onClick={() => append({ title: '' })} className="mt-[30px]">
                 <Plus className="mr-2 h-4 w-4" /> Add Subtask
               </Button>
             </div>
