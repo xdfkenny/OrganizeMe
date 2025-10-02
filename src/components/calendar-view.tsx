@@ -32,17 +32,26 @@ export default function CalendarView() {
   return (
     <div className="flex flex-col lg:flex-row gap-8">
       <Card className="flex-grow lg:flex-grow-[2] xl:flex-grow-[3]">
-        <CardContent className="p-2 sm:p-4 flex justify-center">
+        <CardContent className="p-0 sm:p-4 flex justify-center">
             <Calendar
               mode="single"
               selected={selectedDate}
               onSelect={setSelectedDate}
               className="rounded-md w-full"
               classNames={{
-                month: "w-full space-y-4",
-                table: "w-full border-collapse space-y-1",
-                head_cell: "text-muted-foreground rounded-md w-9 font-normal text-sm",
-                cell: "h-10 w-10 text-center text-base p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+                months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
+                month: 'space-y-4 w-full',
+                table: 'w-full border-collapse',
+                head_row: 'flex justify-between',
+                head_cell: 'text-muted-foreground rounded-md w-full font-normal text-[0.8rem] flex-1 text-center',
+                row: 'flex w-full mt-2 justify-between',
+                cell: 'text-center text-sm p-0 relative aspect-square flex-1 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20',
+                day: 'h-full w-full p-0 font-normal aria-selected:opacity-100 flex items-center justify-center',
+                day_selected:'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground',
+                day_today: 'bg-accent text-accent-foreground',
+                day_outside: 'text-muted-foreground opacity-50',
+                day_disabled:'text-muted-foreground opacity-50',
+                day_hidden: 'invisible',
               }}
               modifiers={{
                 hasTask: tasksWithDueDates.map((task) => new Date(task.dueDate!)),
