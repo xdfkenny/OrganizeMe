@@ -2,6 +2,7 @@
 
 import type { Task, Category, Subtask } from '@/lib/types';
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
+import Cookies from 'js-cookie';
 
 // --- STATE AND ACTION TYPES ---
 
@@ -133,15 +134,15 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     try {
-      const storedTasks = localStorage.getItem('organizeMe_tasks');
-      const storedCategories = localStorage.getItem('organizeMe_categories');
+      const storedTasks = Cookies.get('organizeMe_tasks');
+      const storedCategories = Cookies.get('organizeMe_categories');
       
       const tasks = storedTasks ? JSON.parse(storedTasks) : defaultTasks;
       const categories = storedCategories ? JSON.parse(storedCategories) : defaultCategories;
 
       dispatch({ type: 'INITIALIZE_STATE', payload: { tasks, categories } });
     } catch (error) {
-      console.error("Failed to load state from localStorage, using defaults.", error);
+      console.error("Failed to load state from cookies, using defaults.", error);
       dispatch({ type: 'INITIALIZE_STATE', payload: { tasks: defaultTasks, categories: defaultCategories } });
     }
   }, []);
@@ -149,10 +150,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (state.isInitialized) {
       try {
-        localStorage.setItem('organizeMe_tasks', JSON.stringify(state.tasks));
-        localStorage.setItem('organizeMe_categories', JSON.stringify(state.categories));
+        Cookies.set('organizeMe_tasks', JSON.stringify(state.tasks), { expires: 7 });
+        Cookies.set('organizeMe_categories', JSON.stringify(state.categories), { expires: 7 });
       } catch (error) {
-        console.error("Failed to save state to localStorage.", error);
+        console.error("Failed to save state to cookies.", error);
       }
     }
   }, [state]);
