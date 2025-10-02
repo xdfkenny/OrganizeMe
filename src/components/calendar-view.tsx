@@ -41,6 +41,8 @@ export default function CalendarView() {
               classNames={{
                 month: "w-full space-y-4",
                 table: "w-full border-collapse space-y-1",
+                head_cell: "text-muted-foreground rounded-md w-9 font-normal text-sm",
+                cell: "h-10 w-10 text-center text-base p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
               }}
               modifiers={{
                 hasTask: tasksWithDueDates.map((task) => new Date(task.dueDate!)),
@@ -58,7 +60,7 @@ export default function CalendarView() {
                     return (
                       <div className='relative'>
                         {originalDay}
-                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-primary" />
+                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-1.5 w-1.5 rounded-full bg-primary" />
                       </div>
                     );
                   }
