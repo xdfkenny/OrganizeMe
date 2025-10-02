@@ -1,23 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Calendar, CheckSquare } from 'lucide-react';
-
 import { Button } from '@/components/ui/button';
-import TaskListView from '@/components/task-list-view';
-import CalendarView from '@/components/calendar-view';
+import { cn } from '@/lib/utils';
 
-type View = 'tasks' | 'calendar';
-
-export default function AppLayout() {
-  const [view, setView] = useState<View>('tasks');
+export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
 
   return (
     <div className="flex min-h-screen w-full flex-col">
       <main className="flex-1">
         <div className="container py-8">
-           {view === 'tasks' && <TaskListView />}
-           {view === 'calendar' && <CalendarView />}
+           {children}
         </div>
       </main>
        <footer className="py-6 md:px-8 md:py-0 border-t">
@@ -31,13 +27,17 @@ export default function AppLayout() {
        {/* Mobile Nav */}
        <div className="md:hidden fixed bottom-0 left-0 right-0 border-t bg-background p-2">
           <nav className="flex justify-around">
-            <Button variant={view === 'tasks' ? 'secondary' : 'ghost'} size="sm" className="flex-1" onClick={() => setView('tasks')}>
-              <CheckSquare className='h-5 w-5' />
-              <span className="sr-only">Tasks</span>
+            <Button asChild variant={pathname.startsWith('/todo') ? 'secondary' : 'ghost'} size="sm" className="flex-1">
+              <Link href="/todo">
+                <CheckSquare className='h-5 w-5' />
+                <span className="sr-only">Tasks</span>
+              </Link>
             </Button>
-            <Button variant={view === 'calendar' ? 'secondary' : 'ghost'} size="sm" className="flex-1" onClick={() => setView('calendar')}>
-              <Calendar className='h-5 w-5' />
-               <span className="sr-only">Calendar</span>
+            <Button asChild variant={pathname.startsWith('/calendar') ? 'secondary' : 'ghost'} size="sm" className="flex-1">
+              <Link href="/calendar">
+                <Calendar className='h-5 w-5' />
+                <span className="sr-only">Calendar</span>
+              </Link>
             </Button>
           </nav>
         </div>

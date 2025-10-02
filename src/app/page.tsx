@@ -1,7 +1,7 @@
+// src/app/page.tsx
 'use client';
-
-import AppLayout from "@/components/app-layout";
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  return <AppLayout />;
+  redirect('/todo');
 }
