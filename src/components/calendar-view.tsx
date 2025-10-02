@@ -30,44 +30,46 @@ export default function CalendarView() {
   }
 
   return (
-    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-      <div className="lg:col-span-2">
-         <Card>
-            <CardContent className="p-2 flex justify-center">
-                <Calendar
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={setSelectedDate}
-                  className="rounded-md"
-                  modifiers={{
-                    hasTask: tasksWithDueDates.map((task) => new Date(task.dueDate!)),
-                  }}
-                  modifiersStyles={{
-                    hasTask: {
-                      position: 'relative',
-                    },
-                  }}
-                  components={{
-                    DayContent: (props) => {
-                      const { date, activeModifiers } = props;
-                      const originalDay = <div className='relative'>{format(date, 'd')}</div>;
-                      if (activeModifiers.hasTask) {
-                        return (
-                          <div className='relative'>
-                            {originalDay}
-                            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-primary" />
-                          </div>
-                        );
-                      }
-                      return originalDay;
-                    },
-                  }}
-                />
-            </CardContent>
-         </Card>
-      </div>
+    <div className="flex flex-col lg:flex-row gap-8">
+      <Card className="flex-grow lg:flex-grow-[2] xl:flex-grow-[3]">
+        <CardContent className="p-2 sm:p-4 flex justify-center">
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              onSelect={setSelectedDate}
+              className="rounded-md w-full"
+              classNames={{
+                month: "w-full space-y-4",
+                table: "w-full border-collapse space-y-1",
+              }}
+              modifiers={{
+                hasTask: tasksWithDueDates.map((task) => new Date(task.dueDate!)),
+              }}
+              modifiersStyles={{
+                hasTask: {
+                  position: 'relative',
+                },
+              }}
+              components={{
+                DayContent: (props) => {
+                  const { date, activeModifiers } = props;
+                  const originalDay = <div className='relative'>{format(date, 'd')}</div>;
+                  if (activeModifiers.hasTask) {
+                    return (
+                      <div className='relative'>
+                        {originalDay}
+                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-primary" />
+                      </div>
+                    );
+                  }
+                  return originalDay;
+                },
+              }}
+            />
+        </CardContent>
+      </Card>
 
-      <div className="lg:col-span-1">
+      <div className="flex-grow lg:flex-grow-[1]">
         <Card>
           <CardHeader>
             <CardTitle className="font-headline">
