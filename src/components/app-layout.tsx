@@ -1,14 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Calendar, CheckSquare, Feather } from 'lucide-react';
+import { Calendar, CheckSquare } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { UserNav } from '@/components/user-nav';
 import TaskListView from '@/components/task-list-view';
 import CalendarView from '@/components/calendar-view';
-import { ThemeToggle } from '@/components/theme-toggle';
 
 type View = 'tasks' | 'calendar';
 
@@ -17,31 +14,6 @@ export default function AppLayout() {
 
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <header className="sticky top-0 z-40 w-full border-b bg-background">
-        <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
-          <div className="flex gap-6 md:gap-10">
-            <a href="#" className="flex items-center space-x-2">
-              <Feather className="h-6 w-6 text-primary" />
-              <span className="inline-block font-bold font-headline">OrganizeMe</span>
-            </a>
-            <nav className="hidden md:flex gap-6">
-              <Button variant={view === 'tasks' ? 'link' : 'ghost'} className="text-sm font-medium" onClick={() => setView('tasks')}>
-                <CheckSquare className='mr-2 h-4 w-4' />
-                Tasks
-              </Button>
-              <Button variant={view === 'calendar' ? 'link' : 'ghost'} className="text-sm font-medium text-muted-foreground" onClick={() => setView('calendar')}>
-                <Calendar className='mr-2 h-4 w-4' />
-                Calendar
-              </Button>
-            </nav>
-          </div>
-
-          <div className="flex flex-1 items-center justify-end space-x-4">
-            <ThemeToggle />
-            <UserNav />
-          </div>
-        </div>
-      </header>
       <main className="flex-1">
         <div className="container py-8">
            {view === 'tasks' && <TaskListView />}
